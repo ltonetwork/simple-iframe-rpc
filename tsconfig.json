@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "",
+    "lib": ["es2017.object", "es2015", "es6", "dom"],
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "target": "es6",
+    "paths": {},
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src"]
+}

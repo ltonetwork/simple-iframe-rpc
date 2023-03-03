@@ -1,0 +1,35 @@
+{
+  "name": "simple-iframe-rpc",
+  "version": "0.0.0",
+  "description": "Call functions in an iframe using promises and postMessage",
+  "scripts": {
+    "clean": "rm -rf ./lib ./dist",
+    "build": "webpack --mode production",
+    "compile": "tsc -p ./tsconfig.json",
+    "test": "mocha --require ts-node/register 'test/**/*.spec.ts'",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint-fix": "eslint src --ext .ts,.tsx --fix"
+  },
+  "author": "LTO Network",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "devDependencies": {
+    "@types/jsdom": "^20.0.1",
+    "@types/mocha": "^10.0.1",
+    "jsdom": "^21.1.0",
+    "mocha": "^10.2.0",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@adobe/css-tools": "^4.1.0",
+    "eslint": "^8.35.0"
+  }
+}
