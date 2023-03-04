@@ -30,7 +30,7 @@ const rpc = connect(window, iframe.contentWindow, "*");
 const value = await rpc.add(2, 3);
 ```
 
-It's [recommended](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#parameters) to specify the `targetOrigin` instead of using `"*"`. 
+_It's [recommended](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#parameters) to specify the `targetOrigin` instead of using `"*"`._
 
 ### Timeout
 
@@ -43,9 +43,9 @@ const rpc = connect(window, iframe.contentWindow, "*", {timeout: 3000});
 ### Typescript
 
 ```ts
-import {RPC} from "simple-iframe-rpc";
+import {connect} from "simple-iframe-rpc";
 
-interface MathRPC {
+type MathRPC = {
     add: (a: number, b: number) => Promise<number>;
     sub: (a: number, b: number) => Promise<number>;
 }

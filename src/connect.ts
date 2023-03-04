@@ -7,7 +7,7 @@ interface Options {
 
 let currentChannelId = 1;
 
-export default function connect<T extends {}>(
+export default function connect<T extends {[name: string]: (...args: any) => Promise<any>}>(
     parent: WindowLike,
     child: WindowLike,
     targetOrigin: string,

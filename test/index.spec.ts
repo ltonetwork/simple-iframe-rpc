@@ -2,11 +2,11 @@ import {DOMWindow, JSDOM} from "jsdom";
 import * as assert from "assert";
 import {connect, Listener} from "../src";
 
-interface MathRPC {
+type MathRPC = {
     add: (a: number, b: number) => Promise<number>;
     sub: (a: number, b: number) => Promise<number>;
-    err: () => Promise<void>
-    unknown: () => Promise<never>
+    err: () => Promise<void>;
+    unknown: () => Promise<never>;
 }
 
 describe("simple-iframe-rpc", () => {
