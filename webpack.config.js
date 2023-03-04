@@ -9,11 +9,11 @@ module.exports = {
     devtool: "source-map",
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "all-inline.js",
+        filename: "simple-iframe-rpc.js",
         asyncChunks: false,
         library: {
-            name: "all-inline",
-            type: "amd"
+            name: "simpleIframeRpc",
+            type: "umd"
         }
     },
     module: {
