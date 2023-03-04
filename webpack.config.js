@@ -13,7 +13,7 @@ module.exports = {
         asyncChunks: false,
         library: {
             name: "simpleIframeRpc",
-            type: "umd"
+            type: "amd"
         }
     },
     module: {
