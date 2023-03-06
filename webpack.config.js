@@ -5,11 +5,14 @@ module.exports = {
     experiments: {
         outputModule: true,
     },
-    entry: "./src/index.ts",
+    entry: {
+      sender: "./src/connect.ts",
+      listener: "./src/index.ts"
+    },
     devtool: "source-map",
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "simple-iframe-rpc.js",
+        filename: "simple-iframe-rpc.[name].js",
         asyncChunks: false,
         library: {
             name: "simpleIframeRpc",
