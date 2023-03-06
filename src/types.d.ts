@@ -14,4 +14,4 @@ export interface RPCResponse {
     error?: any;
 }
 
-export type WindowLike = Pick<Window, "addEventListener" | "postMessage" | "setTimeout">
+export type WindowLike = Pick<Window, "addEventListener" | "postMessage" | "setTimeout" | "clearTimeout">

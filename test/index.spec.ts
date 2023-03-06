@@ -58,4 +58,17 @@ describe("simple-iframe-rpc", () => {
             assert.equal(e.message || e, "RPC method 'unknown' is not defined");
         }
     });
+
+    it("gives a timeout when there's no response", async () => {
+        child = new JSDOM('').window; // child without listener
+        parent = new JSDOM('').window;
+        rpc = connect<MathRPC>(parent, child, "*", {timeout: 100});
+
+        try {
+            await rpc.add(1, 2);
+            assert.fail("No error was thrown");
+        } catch (e) {
+            assert.equal(e, 'No response for RCP call \'add\'');
+        }
+    });
 });

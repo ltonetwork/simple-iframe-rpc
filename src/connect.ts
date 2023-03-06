@@ -14,7 +14,7 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
     options: Options = {},
 ): T {
     let currentId = 1;
-    const promises = new Map<number, {resolve: (v: any) => void; reject: (reason?: any) => void}>();
+    const promises = new Map<number, {resolve: (v: any) => void; reject: (reason?: any) => void, timeoutId?: number}>();
     const channel = currentChannelId++;
 
     function call(id: number, fn: string, args: Array<any>): void {
@@ -23,11 +23,14 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
 
     function waitFor(id: number, fn: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            promises.set(id, {resolve, reject});
+            const timeoutId = options.timeout
+                ? parent.setTimeout(() => {
+                    promises.delete(id);
+                    reject(`No response for RCP call '${fn}'`);
+                }, options.timeout)
+                : undefined;
 
-            if (options.timeout) {
-                parent.setTimeout(() => reject(`No response for RCP call ${fn}`), options.timeout);
-            }
+            promises.set(id, {resolve, reject, timeoutId});
         });
     }
 
@@ -41,7 +44,10 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
         const {id, error, result} = event.data;
         if (!promises.has(id)) throw new Error(`No promise waiting for call id ${id} on channel ${channel}`);
 
-        const {resolve, reject} = promises.get(id);
+        const {resolve, reject, timeoutId} = promises.get(id);
+        promises.delete(id);
+
+        if (timeoutId) parent.clearTimeout(timeoutId);
 
         if (error)
             reject(error);

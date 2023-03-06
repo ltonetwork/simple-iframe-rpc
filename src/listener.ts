@@ -9,17 +9,19 @@ export default class Listener {
     private sendResult(event: MessageEvent<RPCRequest>, result: any): void {
         const {channel, id} = event.data;
         const source: WindowLike = (event.source as Window) || this.fallbackSource;
+        const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
         Promise.resolve(result).then(() => {
-            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result}, event.origin || "*");
+            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result}, targetOrigin);
         });
     }
 
     private sendError(event: MessageEvent<RPCRequest>, error: any): void {
         const {channel, id} = event.data;
         const source: WindowLike = (event.source as Window) || this.fallbackSource;
+        const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
-        source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, error}, event.origin || "*");
+        source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, error}, targetOrigin);
     }
 
     listen(window: WindowLike, targetOrigin: string): void {
