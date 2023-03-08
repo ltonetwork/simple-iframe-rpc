@@ -10,7 +10,7 @@ Call functions in an iframe using promises and `window.postMessage()`.
 In the iframe window
 
 ```js
-import {Listener} from "simple-iframe-rpc";
+import Listener from "simple-iframe-rpc/listener";
 
 const listener = new Listener({
     add: (a, b) => a + b,
@@ -22,7 +22,7 @@ listener.listen(window, "*");
 In the parent window
 
 ```js
-import {connect} from "simple-iframe-rpc";
+import {connect} from "simple-iframe-rpc/sender";
 
 const iframe = document.getElementById("my-iframe");
 const rpc = connect(window, iframe.contentWindow, "*");
@@ -32,18 +32,10 @@ const value = await rpc.add(2, 3);
 
 _It's [recommended](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#parameters) to specify the `targetOrigin` instead of using `"*"`._
 
-### Timeout
-
-You can configure RPC to give a timeout if there's no response from the iframe window
-
-```js
-const rpc = connect(window, iframe.contentWindow, "*", {timeout: 3000});
-```
-
 ### Typescript
 
 ```ts
-import {connect} from "simple-iframe-rpc";
+import {connect} from "simple-iframe-rpc/sender";
 
 type MathRPC = {
     add: (a: number, b: number) => Promise<number>;
@@ -52,6 +44,14 @@ type MathRPC = {
 
 const iframe = document.getElementById("my-iframe");
 const rpc = connect<MathRPC>(window, iframe.contentWindow, "*");
+```
+
+### Timeout
+
+You can configure RPC to give a timeout if there's no response from the iframe window
+
+```js
+const rpc = connect(window, iframe.contentWindow, "*", {timeout: 3000});
 ```
 
 ### Remove listener
