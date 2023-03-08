@@ -7,7 +7,7 @@ interface Options {
 
 let currentChannelId = 1;
 
-export default function connect<T extends {[name: string]: (...args: any) => Promise<any>}>(
+export function connect<T extends {[name: string]: (...args: any) => Promise<any>}>(
     parent: WindowLike,
     child: WindowLike,
     targetOrigin: string,
@@ -26,7 +26,7 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
             const timeoutId = options.timeout
                 ? parent.setTimeout(() => {
                     promises.delete(id);
-                    reject(`No response for RCP call '${fn}'`);
+                    reject(new Error(`No response for RCP call '${fn}'`));
                 }, options.timeout)
                 : undefined;
 
@@ -34,7 +34,7 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
         });
     }
 
-    parent.addEventListener("message", (event: MessageEvent<RPCResponse>) => {
+    const handler = (event: MessageEvent<RPCResponse>) => {
         if (
             (targetOrigin !== "*" && event.origin !== targetOrigin) ||
             event.data['@rpc'] !== RESPONSE_TYPE ||
@@ -53,19 +53,28 @@ export default function connect<T extends {[name: string]: (...args: any) => Pro
             reject(error);
         else
             resolve(result);
-    });
+    };
+
+    parent.addEventListener("message", handler);
 
     return new Proxy({} as T, {
-        get: function get(_, fn: string) {
+        get: function get(_, name: string) {
             return function wrapper() {
                 const id = currentId++;
                 const args = Array.prototype.slice.call(arguments);
 
-                const promise = waitFor(id, fn);
-                call(id, fn, args);
+                const promise = waitFor(id, name);
+                call(id, name, args);
 
                 return promise;
             }
+        },
+        deleteProperty(_: T, prop: string | symbol): boolean {
+            if (prop === 'handler') {
+                parent.removeEventListener("message", handler);
+                return true;
+            }
+            return false;
         }
     });
 }

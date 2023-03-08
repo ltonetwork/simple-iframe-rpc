@@ -1,2 +1,2 @@
-export {default as connect} from "./connect";
+export {connect} from "./sender";
 export {default as Listener} from "./listener";

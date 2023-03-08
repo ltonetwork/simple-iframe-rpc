@@ -53,3 +53,13 @@ type MathRPC = {
 const iframe = document.getElementById("my-iframe");
 const rpc = connect<MathRPC>(window, iframe.contentWindow, "*");
 ```
+
+### Remove listener
+
+Deleting the magic `handler` property will remove the event listener.
+
+```js
+delete rpc.handler;
+```
+
+In Typescript, use `delete (rpc as any).handler`.

@@ -5,8 +5,8 @@ module.exports = {
         outputModule: true,
     },
     entry: {
-      sender: "./src/connect.ts",
-      listener: "./src/index.ts"
+      sender: "./src/sender.ts",
+      listener: "./src/listener.ts"
     },
     devtool: "source-map",
     output: {

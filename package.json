@@ -12,7 +12,10 @@
   },
   "author": "LTO Network",
   "license": "MIT",
-  "main": "lib/index.js",
+  "exports": {
+    "./sender": "./lib/index.js",
+    "./listener": "./lib/listener.js"
+  },
   "files": [
     "lib",
     "src"
