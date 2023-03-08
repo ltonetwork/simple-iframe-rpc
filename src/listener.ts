@@ -11,8 +11,8 @@ export default class Listener {
         const source: WindowLike = (event.source as Window) || this.fallbackSource;
         const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
-        Promise.resolve(result).then(() => {
-            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result}, targetOrigin);
+        Promise.resolve(result).then(r => {
+            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result: r}, targetOrigin);
         });
     }
 

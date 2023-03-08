@@ -19,7 +19,7 @@ describe("simple-iframe-rpc", () => {
         child = new JSDOM('').window;
         client = new Listener({
             add: (a, b) => a + b,
-            sub: (a, b) => a - b,
+            sub: (a, b) => Promise.resolve(a - b),
             err: () => { throw new Error("Oops"); }
         });
         client.listen(child, "*");
@@ -39,6 +39,11 @@ describe("simple-iframe-rpc", () => {
     it("gives a result", async () => {
         const result = await rpc.add(2, 3);
         assert.equal(result, 5);
+    });
+
+    it("gives a result of a promise", async () => {
+        const result = await rpc.sub(3, 2);
+        assert.equal(result, 1);
     });
 
     it("throws an error", async () => {
