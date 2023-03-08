@@ -18,3 +18,5 @@ export type WindowLike = Pick<
     Window,
     "addEventListener" | "removeEventListener" | "postMessage" | "setTimeout" | "clearTimeout"
 >
+
+export type MessageTarget = Pick<Window, "postMessage">

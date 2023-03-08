@@ -66,7 +66,6 @@ describe("simple-iframe-rpc", () => {
 
     it("gives a timeout when there's no response", async () => {
         const child = new JSDOM('').window; // child without listener
-        const parent = new JSDOM('').window;
         const rpc = connect<MathRPC>(parent, child, "*", {timeout: 100});
 
         try {
@@ -77,19 +76,31 @@ describe("simple-iframe-rpc", () => {
         }
     });
 
-    it("will return the handler to remove the event listener A", async () => {
-        const rpc = connect<MathRPC>(parent, child, "*", {timeout: 100});
+    it("will remove the event handler", async () => {
+        const rpc = connect<MathRPC>(parent, child, "*");
 
         assert.equal(await rpc.add(2, 3), 5);
 
         delete (rpc as any).handler;
 
-        // Should time out because there's no handler.
         try {
             await rpc.add(1, 2);
             assert.fail("No error was thrown");
         } catch (e) {
-            assert.equal(e.message, 'No response for RCP call \'add\'');
+            assert.equal(e.message, 'RPC no longer usable. Handler is removed');
         }
+    });
+
+    it("will cancel when removing the event handler", async () => {
+        const child = new JSDOM('').window; // child without listener
+        const rpc = connect<MathRPC>(parent, child, "*", {timeout: 10000});
+
+        const promise = rpc.add(2, 3)
+            .then(() => assert.fail("No error was thrown"))
+            .catch(reason => assert.equal(reason.message, "Event handler removed"))
+
+        delete (rpc as any).handler;
+
+        await promise;
     });
 });

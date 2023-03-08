@@ -1,5 +1,5 @@
 import {CALL_TYPE, RESPONSE_TYPE} from "./constants";
-import {RPCResponse, WindowLike} from "./types";
+import {MessageTarget, RPCResponse, WindowLike} from "./types";
 
 interface Options {
     timeout?: number
@@ -7,15 +7,22 @@ interface Options {
 
 let currentChannelId = 1;
 
+export class Cancelled extends Error {}
+
 export function connect<T extends {[name: string]: (...args: any) => Promise<any>}>(
     parent: WindowLike,
-    child: WindowLike,
+    child: MessageTarget,
     targetOrigin: string,
     options: Options = {},
 ): T {
-    let currentId = 1;
+    let currentId = 0;
     const promises = new Map<number, {resolve: (v: any) => void; reject: (reason?: any) => void, timeoutId?: number}>();
     const channel = currentChannelId++;
+
+    function newId() {
+        if (currentId < 0) throw new Error("RPC no longer usable. Handler is removed");
+        return ++currentId;
+    }
 
     function call(id: number, fn: string, args: Array<any>): void {
         child.postMessage({'@rpc': CALL_TYPE, channel, id, fn, args}, targetOrigin);
@@ -32,6 +39,18 @@ export function connect<T extends {[name: string]: (...args: any) => Promise<any
 
             promises.set(id, {resolve, reject, timeoutId});
         });
+    }
+
+    function destroy() {
+        parent.removeEventListener("message", handler);
+
+        for (const {reject, timeoutId} of promises.values()) {
+            reject(new Cancelled("Event handler removed"));
+            parent.clearTimeout(timeoutId);
+        }
+        promises.clear();
+
+        currentId = -1;
     }
 
     const handler = (event: MessageEvent<RPCResponse>) => {
@@ -60,7 +79,7 @@ export function connect<T extends {[name: string]: (...args: any) => Promise<any
     return new Proxy({} as T, {
         get: function get(_, name: string) {
             return function wrapper() {
-                const id = currentId++;
+                const id = newId();
                 const args = Array.prototype.slice.call(arguments);
 
                 const promise = waitFor(id, name);
@@ -71,7 +90,7 @@ export function connect<T extends {[name: string]: (...args: any) => Promise<any
         },
         deleteProperty(_: T, prop: string | symbol): boolean {
             if (prop === 'handler') {
-                parent.removeEventListener("message", handler);
+                destroy();
                 return true;
             }
             return false;

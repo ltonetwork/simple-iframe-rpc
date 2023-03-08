@@ -63,3 +63,19 @@ delete rpc.handler;
 ```
 
 In Typescript, use `delete (rpc as any).handler`.
+
+## Web worker
+
+The library can also be used with [Web workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+
+```js
+const myWorker = new Worker('worker.js');
+const rpc = connect(window, myWorker, "*");
+```
+
+in `worker.js`
+
+```js
+// ...
+listener.listen(self, "*");
+```

@@ -1,14 +1,14 @@
 import {CALL_TYPE, RESPONSE_TYPE} from "./constants";
-import {RPCRequest, WindowLike} from "./types";
+import {MessageTarget, RPCRequest, WindowLike} from "./types";
 
 export default class Listener {
-    public fallbackSource: WindowLike; // Only for debugging
+    public fallbackSource: MessageTarget; // Only for testing
 
     constructor(private readonly methods: {[fn: string]: (...args: any[]) => any}) {}
 
     private sendResult(event: MessageEvent<RPCRequest>, result: any): void {
         const {channel, id} = event.data;
-        const source: WindowLike = (event.source as Window) || this.fallbackSource;
+        const source: MessageTarget = (event.source as MessageTarget) || this.fallbackSource;
         const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
         Promise.resolve(result).then(r => {
@@ -18,7 +18,7 @@ export default class Listener {
 
     private sendError(event: MessageEvent<RPCRequest>, error: any): void {
         const {channel, id} = event.data;
-        const source: WindowLike = (event.source as Window) || this.fallbackSource;
+        const source: MessageTarget = (event.source as MessageTarget) || this.fallbackSource;
         const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
         source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, error}, targetOrigin);
