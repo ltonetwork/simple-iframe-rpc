@@ -5,7 +5,8 @@ import {connect, Listener} from "../src";
 type MathRPC = {
     add: (a: number, b: number) => Promise<number>;
     sub: (a: number, b: number) => Promise<number>;
-    err: () => Promise<void>;
+    err: () => Promise<never>;
+    reject: () => Promise<never>;
     unknown: () => Promise<never>;
 }
 
@@ -20,7 +21,8 @@ describe("simple-iframe-rpc", () => {
         client = new Listener({
             add: (a, b) => a + b,
             sub: (a, b) => Promise.resolve(a - b),
-            err: () => { throw new Error("Oops"); }
+            err: () => { throw new Error("Oops"); },
+            reject: () => Promise.reject("Denied"),
         });
         client.listen(child, "*");
     });
@@ -46,22 +48,22 @@ describe("simple-iframe-rpc", () => {
         assert.equal(result, 1);
     });
 
-    it("throws an error", async () => {
-        try {
-            await rpc.err();
-            assert.fail("No error was thrown");
-        } catch (e) {
-            assert.equal(e.message || e, 'Oops');
-        }
+    it("throws an error", () => {
+        rpc.err()
+            .then(() => assert.fail("No error was thrown"))
+            .catch(e => assert.equal(e.message, 'Oops'));
     });
 
-    it("throws an error if an undefined method is called", async () => {
-        try {
-            await rpc.unknown();
-            assert.fail("No error was thrown");
-        } catch (e) {
-            assert.equal(e.message || e, "RPC method 'unknown' is not defined");
-        }
+    it("throws an error for a rejected promise", () => {
+        rpc.reject()
+            .then(() => assert.fail("No error was thrown"))
+            .catch(e => assert.equal(e, 'Denied'));
+    });
+
+    it("throws an error if an undefined method is called", () => {
+        rpc.unknown()
+            .then(() => assert.fail("No error was thrown"))
+            .catch(e => assert.equal(e.message, "RPC method 'unknown' is not defined"));
     });
 
     it("gives a timeout when there's no response", async () => {

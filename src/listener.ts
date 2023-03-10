@@ -6,14 +6,18 @@ export default class Listener {
 
     constructor(private readonly methods: {[fn: string]: (...args: any[]) => any}) {}
 
+    private send(event: MessageEvent<RPCRequest>, resultOrPromise: any): void {
+        Promise.resolve(resultOrPromise)
+            .then(result => this.sendResult(event, result))
+            .catch(error => this.sendError(event, error));
+    }
+
     private sendResult(event: MessageEvent<RPCRequest>, result: any): void {
         const {channel, id} = event.data;
         const source: MessageTarget = (event.source as MessageTarget) || this.fallbackSource;
         const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
-        Promise.resolve(result).then(r => {
-            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result: r}, targetOrigin);
-        });
+        source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, result}, targetOrigin);
     }
 
     private sendError(event: MessageEvent<RPCRequest>, error: any): void {
@@ -39,8 +43,7 @@ export default class Listener {
             }
 
             try {
-                const response = this.methods[fn](...args);
-                this.sendResult(event, response);
+                this.send(event, this.methods[fn](...args));
             } catch (error) {
                 this.sendError(event, error);
             }
