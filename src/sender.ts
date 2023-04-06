@@ -20,7 +20,7 @@ export function connect<T extends {[name: string]: (...args: any) => Promise<any
     const channel = currentChannelId++;
 
     function newId() {
-        if (currentId < 0) throw new Error("RPC no longer usable. Handler is removed");
+        if (currentId < 0) throw new Cancelled("RPC no longer usable. Handler is removed");
         return ++currentId;
     }
 
