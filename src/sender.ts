@@ -63,7 +63,7 @@ export function connect<T extends {[name: string]: (...args: any) => Promise<any
         const {id, error, result} = event.data;
         if (!promises.has(id)) throw new Error(`No promise waiting for call id ${id} on channel ${channel}`);
 
-        const {resolve, reject, timeoutId} = promises.get(id);
+        const {resolve, reject, timeoutId} = promises.get(id)!;
         promises.delete(id);
 
         if (timeoutId) parent.clearTimeout(timeoutId);
