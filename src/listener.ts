@@ -21,11 +21,26 @@ export default class Listener {
     }
 
     private sendError(event: MessageEvent<RPCRequest>, error: any): void {
+        if (error instanceof ErrorEvent) error = this.convertErrorEvent(error);
+
         const {channel, id} = event.data;
         const source: MessageTarget = (event.source as MessageTarget) || this.fallbackSource;
         const targetOrigin = event.origin && event.origin !== "null" ? event.origin : "*";
 
-        source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, error}, targetOrigin);
+        try {
+            source.postMessage({'@rpc': RESPONSE_TYPE, channel, id, error}, targetOrigin);
+        } catch (e) {
+            console.error(error);
+            throw e;
+        }
+    }
+
+    private convertErrorEvent(errorEvent: ErrorEvent): Error {
+        const error = new Error(errorEvent.message);
+        error.name = errorEvent.error && errorEvent.error.name;
+        error.stack = errorEvent.error && errorEvent.error.stack;
+
+        return error;
     }
 
     listen(window: WindowLike, targetOrigin: string): void {
