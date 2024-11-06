@@ -63,7 +63,7 @@ jobs:
         provider: npm
         email: arnold@jasny.net
         api_key:
-          secure: "c1bUo1kTPLLWq35Nt4HLfCPAn6gCp3hnDxpRz/FVg1TNk4KAinvDSgM9KoLRIBqxVgEmSMq7EulnkBAjD6iK2wpiBvhPOZHPnhATog75fedG2C11eloK7QgmLUxRhMDrXMnI6qGVsJegdiwHclbG4guIOjqGeSlMq8dgJgWJz2YQr2htFXsaWZZuAoBfOTr+FPqmj/ttFV3U2YNvLKRdISDu3O3FsT19/eNTy7CSLiuNAttqV7/vf683VT+dBrkPAGvfFS6boOCKCgTAtYoLAt5XPgLSlxZDXJOZLF28I0pAwbUQ8pbI8mvw91YJKCbpfdbRdl3RU2DwanDO9pxljuWMD+o0/LkO7kwhYWXHmBL+H4dGXUyE31vxpBGuCUP6X7sde5r7Z01GNxkzLh2gB1tcRj6bCt8VgbeKgl0kX8OfY2AzoeUwokqJbY618KdMz6PsETnrEo9rKnwugDXpGdbz4Nau8HqfoB0+T/R0Or3TFP69rx0Fz4qPvI+xGn+psvjBYxzt0HfMcJJXoBNXIXvFavbveHGbwcOxLEEz24HgA9K7KnMYIr+1nGvqI3w+PwirfM78DRayq7JENbcDH+Ib42tz8PHya7r0V5SjZVHdGt2c/07cm1RPAUhx2D31Tra7VBg8ls2K0/J5S+HCPce5lfkclyDSonkn1a1BNKs="
+          secure: "hsyCQX4dpvVbavdaoa3uJeMuS1C2dDAq9NTFQ6R9ZzM1adVLdcBbWbHbDcdBGeRbkB5wyRKUcVKNYMD2XPF6KaZjr5rVavQ+aVeaoGDMGyVqeg4BPQVvlptRDHgrYMKEhpNa4ePprUMy+OdE4dOF/YUkY+aSPe7/5HpsGCOax/8V3fQ0dzh093q7p95gT3iUT+BvdJiWgoq8sz250kslwPo4pRhUvxjNjl9hFVM2Jf/81ujbw6JIdFz/U7uh+LuNQwu3lkwA1cfAXdzdh3HDr38ELwsUj/1SFig9AyfKMBx9w4Bc2rp+KtvVsBvFEKVsfTsCYZtzPc04yjtOzb2ne4JFxb32tPGQrwfId8hE7QhPThXySDboeZ776zJ2SAoJ0CHniEha2+W8569KlI5QZDa6d1g1ymmdFmeJm4ZCNT0kBILZ50lhEDXciXHClBKIqMrWxh2Txcma8ntzOEUcTtab9WR9xZ+Cla1aOMawOz/3Iu81HLnx+SG9ENiPg+E4QuAO/Rfnwo9eeKqWQ6TgpsOWufNx9mFDuOyLWzKlw22GO7+sYGbL/JmYS2Z0ab6ToWukxNyMMUK7oJHJdyTJ0zoatavUoqLoUeDt7ejc1PhTL69HOc/TwmBC99Hk2L0zlCzpWpir1eu54kG1bsFGCye2AsPY7Mcz0Dxilk+y378="
         on:
           tags: true
         cleanup: false
