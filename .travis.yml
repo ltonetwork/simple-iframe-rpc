@@ -62,10 +62,8 @@ jobs:
       deploy:
         provider: npm
         edge: true
-        email: arnold@jasny.net
         api_token:
           secure: "FlmObYA/zgSvZzZQbVWeTtOYh/MY3Ng4CxmxEwUTwl6dV4qGikBXtGVEHlD6DpdBEIyHzkfC+Lhe8Dy/ovAK/eq0KlTOdJIN9YLKA2H/wGAzYywYweKacFEl5Mz97YA9HpevL5sSw/oQ+7PSMEFvMSW74mKCvVtjr3ob8nl8MLBPx2Pa89QTy0M94BzNuIfrQPnLbja21hnh4wvBllQ2cTJ0KgyEvrynFoxQsSXCpmL5+c51seXIT74Yumuk0qxMQLZ2IeVwWE34KGM0jLCwJ208IHeem6664lPOoBQCkLwHR64uWPiqLquiN4f9orDbc9qGh1Wzd5qezzerERBfANtQk8WVnngC4o0OsFzEYZaFHQiaqDzhSpjXd7Ytuhx+8wlcB8zX1iyeXy2FVSGNDpaKcUfPOtdNvPZL8e/H7UyG/cXcrusYNUthAm6GlfgmJrOfujrKoq4JB9+XDYGEcyjDYrHo6twadVRnoozHrGa+/X5pyk1K+raoJs+xBrtkSV72Gl4FwBLzyUyy0Uk/6wNKBUcomCObxUO+l9x9ySjZEO1Jcxsxz7uue8Xukg3+XSAtkoli66Yu6dMvDw0y7C22PqS5k/dj69B+uij+MNJoFB0dhLvsZyO7mccNl2I4AfnbckQM5VMYNzC9ya74zn2hF4JBxnd89518mLF52QY="
         on:
           tags: true
         cleanup: false
-        skip_cleanup: true
