@@ -2,7 +2,7 @@ import {CALL_TYPE, RESPONSE_TYPE} from "./constants";
 import {MessageTarget, RPCRequest, WindowLike} from "./types";
 
 export default class Listener {
-    public fallbackSource?: MessageTarget; // Only for testing
+    public fallbackSource: MessageTarget; // Only for testing
 
     constructor(private readonly methods: {[fn: string]: (...args: any[]) => any}) {}
 

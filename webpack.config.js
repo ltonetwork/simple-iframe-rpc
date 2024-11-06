@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
     experiments: {
-        outputModule: false,
+        outputModule: true,
     },
     entry: {
       sender: "./src/sender.ts",
@@ -15,7 +15,7 @@ module.exports = {
         asyncChunks: false,
         library: {
             name: "simpleIframeRpc",
-            type: "umd"
+            type: "amd"
         }
     },
     module: {

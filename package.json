@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf ./lib ./dist",
     "build": "webpack --mode production",
-    "compile": "tsc && tsc -p ./tsconfig.esm.json",
+    "compile": "tsc -p ./tsconfig.json",
     "test": "mocha --require ts-node/register 'test/**/*.spec.ts'",
     "lint": "eslint src --ext .ts,.tsx",
     "lint-fix": "eslint src --ext .ts,.tsx --fix"
@@ -14,21 +14,9 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/esm/index.js",
-      "default": "./lib/index.js"
-    },
-    "./sender": {
-      "types": "./lib/sender.d.ts",
-      "import": "./lib/esm/sender.js",
-      "default": "./lib/sender.js"
-    },
-    "./listener": {
-      "types": "./lib/listener.d.ts",
-      "import": "./lib/esm/listener.js",
-      "default": "./lib/listener.js"
-    }
+    ".": "./lib/index.js",
+    "./sender": "./lib/sender.js",
+    "./listener": "./lib/listener.js"
   },
   "files": [
     "lib",
