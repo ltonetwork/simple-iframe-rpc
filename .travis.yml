@@ -61,9 +61,11 @@ jobs:
         - npx tsc
       deploy:
         provider: npm
+        edge: true
         email: arnold@jasny.net
         api_key:
           secure: "hsyCQX4dpvVbavdaoa3uJeMuS1C2dDAq9NTFQ6R9ZzM1adVLdcBbWbHbDcdBGeRbkB5wyRKUcVKNYMD2XPF6KaZjr5rVavQ+aVeaoGDMGyVqeg4BPQVvlptRDHgrYMKEhpNa4ePprUMy+OdE4dOF/YUkY+aSPe7/5HpsGCOax/8V3fQ0dzh093q7p95gT3iUT+BvdJiWgoq8sz250kslwPo4pRhUvxjNjl9hFVM2Jf/81ujbw6JIdFz/U7uh+LuNQwu3lkwA1cfAXdzdh3HDr38ELwsUj/1SFig9AyfKMBx9w4Bc2rp+KtvVsBvFEKVsfTsCYZtzPc04yjtOzb2ne4JFxb32tPGQrwfId8hE7QhPThXySDboeZ776zJ2SAoJ0CHniEha2+W8569KlI5QZDa6d1g1ymmdFmeJm4ZCNT0kBILZ50lhEDXciXHClBKIqMrWxh2Txcma8ntzOEUcTtab9WR9xZ+Cla1aOMawOz/3Iu81HLnx+SG9ENiPg+E4QuAO/Rfnwo9eeKqWQ6TgpsOWufNx9mFDuOyLWzKlw22GO7+sYGbL/JmYS2Z0ab6ToWukxNyMMUK7oJHJdyTJ0zoatavUoqLoUeDt7ejc1PhTL69HOc/TwmBC99Hk2L0zlCzpWpir1eu54kG1bsFGCye2AsPY7Mcz0Dxilk+y378="
+        access: public
         on:
           tags: true
         cleanup: false
